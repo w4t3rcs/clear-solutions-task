@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: user-rest-api-test-task
+  profiles:
+    active: "${ACTIVE_PROFILE:dev}"
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+  cache:
+    redis:
+      time-to-live: 5m
+      cache-null-values: false
+    type: redis
+    cache-names: redis-cache
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+logging:
+  level:
+    root: ${LOGGING_LEVEL}
+application:
+  user:
+    allowed-age: 18

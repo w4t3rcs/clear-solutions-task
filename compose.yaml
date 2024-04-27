@@ -1,0 +1,18 @@
+volumes:
+  cache:
+    driver: local
+
+services:
+  app:
+    build:
+      context: .
+    container_name: users-task
+    depends_on:
+      - redis
+  redis:
+    image: 'redis:latest'
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
