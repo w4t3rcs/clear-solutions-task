@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    name: ${DB_NAME}
+    url: jdbc:postgresql://postgresql:5432
+  cache:
+    redis:
+      time-to-live: 5m
+      cache-null-values: false
+    type: redis
+    cache-names: redis-cache
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
