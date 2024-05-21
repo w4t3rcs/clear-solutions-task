@@ -1,12 +1,11 @@
-package com.w4t3rcs.task.service;
+package com.w4t3rcs.task.service.impl;
 
 import com.w4t3rcs.task.dto.UserDto;
 import com.w4t3rcs.task.entity.User;
 import com.w4t3rcs.task.exception.FromDateIsAfterToDateException;
-import com.w4t3rcs.task.exception.InvalidAgeException;
 import com.w4t3rcs.task.exception.UserNotFoundException;
-import com.w4t3rcs.task.properties.UserProperties;
 import com.w4t3rcs.task.repository.UserRepository;
+import com.w4t3rcs.task.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -15,20 +14,17 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserProperties userProperties;
 
     @Override
     @Caching(cacheable = @Cacheable(value = "UserService::getUser", key = "#user.id"))
     public UserDto createUser(UserDto user) {
-        Period between = Period.between(user.getBirthDate(), LocalDate.now());
-        if (between.getYears() < userProperties.getAllowedAge()) throw new InvalidAgeException();
         return UserDto.fromUser(userRepository.save(user.toUser()));
     }
 
@@ -61,28 +57,19 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(Long id, UserDto user) {
         User userFromDb = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
-        if (user.getFirstName() != null) {
-            userFromDb.setFirstName(user.getFirstName());
-        }
-        if (user.getLastName() != null) {
-            userFromDb.setLastName(user.getLastName());
-        }
-        if (user.getEmail() != null) {
-            userFromDb.setEmail(user.getEmail());
-        }
-        if (user.getBirthDate() != null) {
-            Period between = Period.between(user.getBirthDate(), LocalDate.now());
-            if (between.getYears() < userProperties.getAllowedAge()) throw new InvalidAgeException();
-            userFromDb.setBirthDate(user.getBirthDate());
-        }
-        if (user.getAddress() != null) {
-            userFromDb.setAddress(user.getAddress());
-        }
-        if (user.getPhoneNumber() != null) {
-            userFromDb.setPhoneNumber(user.getPhoneNumber());
-        }
+        Optional.ofNullable(user.getFirstName())
+                .ifPresent(userFromDb::setFirstName);
+        Optional.ofNullable(user.getLastName())
+                .ifPresent(userFromDb::setLastName);
+        Optional.ofNullable(user.getEmail())
+                .ifPresent(userFromDb::setEmail);
+        Optional.ofNullable(user.getBirthDate())
+                .ifPresent(userFromDb::setBirthDate);
+        Optional.ofNullable(user.getAddress())
+                .ifPresent(userFromDb::setAddress);
+        Optional.ofNullable(user.getPhoneNumber())
+                .ifPresent(userFromDb::setPhoneNumber);
 
-        System.out.println(userFromDb);
         return UserDto.fromUser(userRepository.save(userFromDb));
     }
 

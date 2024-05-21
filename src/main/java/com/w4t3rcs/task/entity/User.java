@@ -1,5 +1,6 @@
 package com.w4t3rcs.task.entity;
 
+import com.w4t3rcs.task.validation.annotation.AllowedAge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -28,7 +29,7 @@ public class User implements Serializable {
     @Column(unique = true)
     private String email;
     @NotNull
-    @Past
+    @AllowedAge
     private LocalDate birthDate;
     private String address;
     @Pattern(regexp = "^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$")
