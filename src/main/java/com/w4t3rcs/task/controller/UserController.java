@@ -18,32 +18,32 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserDto> getUsers() {
+    public List<UserDto> findUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping(params = {"from", "to"})
-    public List<UserDto> getUsersBetweenDates(@RequestParam LocalDate from, @RequestParam LocalDate to) {
+    public List<UserDto> findUsersWithinDateRange(@RequestParam LocalDate from, @RequestParam LocalDate to) {
         return userService.getAllUsersBetweenDates(from, to);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserDto> findUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.createUser(userDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.updateUser(id, userDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> putUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("User " + id + " is deleted");
     }
