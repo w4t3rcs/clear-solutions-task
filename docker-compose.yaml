@@ -1,0 +1,30 @@
+volumes:
+  cache:
+    driver: local
+
+services:
+  app:
+    build:
+      context: .
+    container_name: users-task
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+  redis:
+    image: 'redis:latest'
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
