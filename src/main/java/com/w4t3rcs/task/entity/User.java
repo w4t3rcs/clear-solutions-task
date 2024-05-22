@@ -32,7 +32,7 @@ public class User implements Serializable {
     @AllowedAge
     private LocalDate birthDate;
     private String address;
-    @Pattern(regexp = "^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$")
+    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$")
     private String phoneNumber;
 
     @Override

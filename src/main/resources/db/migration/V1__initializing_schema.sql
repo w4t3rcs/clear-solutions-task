@@ -5,5 +5,5 @@ CREATE TABLE users(
     email VARCHAR(128) UNIQUE NOT NULL,
     birth_date DATE NOT NULL,
     address VARCHAR(128),
-    phone_number VARCHAR(16)
+    phone_number VARCHAR(24)
 )
