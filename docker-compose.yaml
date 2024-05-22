@@ -6,7 +6,7 @@ services:
   app:
     build:
       context: .
-    container_name: users-task
+    container_name: users-task-app
     depends_on:
       - postgres
       - redis

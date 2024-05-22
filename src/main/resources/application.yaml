@@ -1,5 +1,5 @@
 spring:
   application:
-    name: user-rest-api-test-task
+    name: user-task-app
   profiles:
     active: ${ACTIVE_PROFILE}:dev
