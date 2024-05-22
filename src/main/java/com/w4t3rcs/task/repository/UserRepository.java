@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM users WHERE users.birth_date >= :from AND users.birth_date <= :to", nativeQuery = true)
-    List<User> findAllByBirthDateBetweenFromAndTo(@Param("from") LocalDate from, @Param("to") LocalDate to);
+    List<User> findAllByBirthDateBetween(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }

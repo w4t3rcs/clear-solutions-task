@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsersBetweenDates(LocalDate from, LocalDate to) {
         if (from.isAfter(to)) throw new FromDateIsAfterToDateException();
-        return userRepository.findAllByBirthDateBetweenFromAndTo(from, to)
+        return userRepository.findAllByBirthDateBetween(from, to)
                 .stream()
                 .map(UserDto::fromUser)
                 .toList();
