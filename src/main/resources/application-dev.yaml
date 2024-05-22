@@ -4,6 +4,11 @@ spring:
     password: ${DB_PASSWORD}
     name: ${DB_NAME}
     url: jdbc:postgresql://postgresql:5432
+  data:
+    redis:
+      password: ${DB_PASSWORD}
+      ssl:
+        enabled: true
   cache:
     redis:
       time-to-live: 5m
